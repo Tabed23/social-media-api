@@ -1,0 +1,78 @@
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @auth on FIELD_DEFINITION
+
+scalar Any
+scalar Time
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  name: String
+  bio: String
+  profilePicture: String
+  password: String!
+  createdAt: Time!
+  updatedAt: Time!
+
+  posts: [Post!]!
+  comments: [Comment!]!
+  likes: [Like!]!
+  friends: [User!]!
+  blockedUsers: [User!]!
+  closeFriends: [User!]!
+}
+
+type Post {
+  id: ID!
+  content: String!
+  createdAt: Time!
+  updatedAt: Time!
+  author: User!
+  comments: [Comment!]!
+  likes: [Like!]!
+}
+
+type Comment {
+  id: ID!
+  content: String!
+  createdAt: Time!
+  updatedAt: Time!
+
+  author: User!
+  post: Post!
+  likes: [Like!]!
+}
+
+type Like {
+  id: ID!
+  createdAt: Time!
+
+  user: User
+  post: Post
+  comment: Comment
+}
+
+input NewUserInput {
+  username: String!
+  email: String!
+  name: String!
+  bio: String!
+  profilePicture: String!
+  password: String!
+}
+
+type Query {
+  users(search: String, limit: Int, offset: Int): [User!]!
+  user(id: ID!): User!
+}
+
+type Mutation {
+  createUser(newUser: NewUserInput!): User!
+  updateUser(id: ID!, username: String, email: String, bio: String): User!
+  deleteUser(id: ID!): Boolean!
+}
