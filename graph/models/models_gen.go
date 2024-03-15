@@ -2,7 +2,15 @@
 
 package models
 
+import (
+	"time"
+)
+
 type Mutation struct {
+}
+
+type NewPostInput struct {
+	Content string `json:"content"`
 }
 
 type NewUserInput struct {
@@ -15,4 +23,18 @@ type NewUserInput struct {
 }
 
 type Query struct {
+}
+
+type UpdatePostInput struct {
+	Content   *string    `json:"content,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+}
+
+type UpdateUserInput struct {
+	Username       *string    `json:"username,omitempty"`
+	Name           *string    `json:"name,omitempty"`
+	Bio            *string    `json:"bio,omitempty"`
+	ProfilePicture *string    `json:"profilePicture,omitempty"`
+	Password       *string    `json:"password,omitempty"`
+	UpdatedAt      *time.Time `json:"updatedAt,omitempty"`
 }

@@ -17,13 +17,28 @@ func (r *mutationResolver) CreateUser(ctx context.Context, newUser models.NewUse
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, id string, username *string, email *string, bio *string) (*models.User, error) {
-	panic(fmt.Errorf("not implemented: UpdateUser - updateUser"))
+func (r *mutationResolver) UpdateUser(ctx context.Context, email string, updateUser models.UpdateUserInput) (*models.User, error) {
+	return r.UserRepository.UpdateUser(ctx, email, updateUser)
 }
 
 // DeleteUser is the resolver for the deleteUser field.
-func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteUser - deleteUser"))
+func (r *mutationResolver) DeleteUser(ctx context.Context, email string) (bool, error) {
+	return r.UserRepository.DeleteUser(ctx, email)
+}
+
+// CreatePost is the resolver for the createPost field.
+func (r *mutationResolver) CreatePost(ctx context.Context, username string, newPost models.NewPostInput) (*models.Post, error) {
+	return r.PostRepository.CreaterPost(ctx, username, newPost)
+}
+
+// UpdatePost is the resolver for the updatePost field.
+func (r *mutationResolver) UpdatePost(ctx context.Context, id string, updatePost models.UpdatePostInput) (*models.Post, error) {
+	panic(fmt.Errorf("not implemented: UpdatePost - updatePost"))
+}
+
+// DeletePost is the resolver for the deletePost field.
+func (r *mutationResolver) DeletePost(ctx context.Context, id string) (bool, error) {
+	return r.PostRepository.DeletePost(ctx, id)
 }
 
 // Users is the resolver for the users field.
@@ -31,9 +46,24 @@ func (r *queryResolver) Users(ctx context.Context, search *string, limit *int, o
 	return r.UserRepository.GetUsers(ctx)
 }
 
-// User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context, id string) (*models.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+// Userbyusername is the resolver for the userbyusername field.
+func (r *queryResolver) Userbyusername(ctx context.Context, username string) (*models.User, error) {
+	return r.UserRepository.FindByUsername(ctx, username)
+}
+
+// Userbyemail is the resolver for the userbyemail field.
+func (r *queryResolver) Userbyemail(ctx context.Context, email string) (*models.User, error) {
+	return r.UserRepository.FindByEmail(ctx, email)
+}
+
+// Posts is the resolver for the posts field.
+func (r *queryResolver) Posts(ctx context.Context, limit *int, offset *int) ([]*models.Post, error) {
+	return r.PostRepository.GetPosts(ctx)
+}
+
+// Post is the resolver for the post field.
+func (r *queryResolver) Post(ctx context.Context, id string) (*models.Post, error) {
+	return r.PostRepository.GetPost(ctx, id)
 }
 
 // Mutation returns MutationResolver implementation.
@@ -44,3 +74,13 @@ func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//     it when you're done.
+//   - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *queryResolver) User(ctx context.Context, id string) (*models.User, error) {
+	panic(fmt.Errorf("not implemented: User - user"))
+}

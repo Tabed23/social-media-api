@@ -12,11 +12,11 @@ type Like struct {
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 
 	// Relationships
-	UserID    string  `gorm:"type:varchar(255);not null"`
+	UserID    string `gorm:"type:varchar(255);not null"`
 	PostID    string `gorm:"type:varchar(255)"`
 	CommentID string `gorm:"type:varchar(255)"`
 
-	User    User     `gorm:"foreignKey:UserID"`
-	Post    *Post    `gorm:"foreignKey:PostID"`
-	Comment *Comment `gorm:"foreignKey:CommentID"`
+	User    User    `gorm:"foreignKey:UserID"`
+	Post    Post    `gorm:"foreignKey:PostID"`
+	Comment Comment `gorm:"foreignKey:CommentID"`
 }

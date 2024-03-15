@@ -22,7 +22,7 @@ type User struct {
 	Posts        []Post    `gorm:"foreignKey:AuthorID"`
 	Comments     []Comment `gorm:"foreignKey:AuthorID"`
 	Likes        []Like    `gorm:"foreignKey:UserID"`
-	Friends      []*User   `gorm:"many2many:user_friends"`
-	BlockedUsers []*User   `gorm:"many2many:user_blocked_users"`
-	CloseFriends []*User   `gorm:"many2many:user_close_friends"`
+	Friends      []User    `gorm:"many2many:user_friends"`
+	BlockedUsers []User    `gorm:"many2many:user_blocked_users"`
+	CloseFriends []User    `gorm:"many2many:user_close_friends"`
 }
