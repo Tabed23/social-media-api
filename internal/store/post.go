@@ -48,6 +48,10 @@ func (p *PostStore) GetPost(ctx context.Context, postID string) (*models.Post, e
 	if tx != nil {
 		return nil, tx
 	}
+	tx = p.db.Table("comments").WithContext(ctx).Where("id = ?", post.AuthorID).Find(&post.Author).Error
+	if tx != nil {
+		return nil, tx
+	}
 	return post, nil
 }
 
@@ -58,6 +62,17 @@ func (p *PostStore) GetPosts(ctx context.Context) ([]*models.Post, error) {
 	if tx != nil {
 		return nil, tx
 	}
+	for _, post := range posts {
+		if post == nil {
+			continue
+		}
+		tx = p.db.Table("users").WithContext(ctx).Where("id = ?", post.AuthorID).Find(&post.Author).Error
+		if tx != nil {
+			return nil, tx
+		}
+
+	}
+
 	return posts, nil
 
 }

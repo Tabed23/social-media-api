@@ -9,6 +9,11 @@ import (
 type Mutation struct {
 }
 
+type NewCommentInput struct {
+	Content string `json:"content"`
+	PostID  string `json:"postId"`
+}
+
 type NewPostInput struct {
 	Content string `json:"content"`
 }
@@ -23,6 +28,11 @@ type NewUserInput struct {
 }
 
 type Query struct {
+}
+
+type UpdateCommentInput struct {
+	Content   *string    `json:"content,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 }
 
 type UpdatePostInput struct {

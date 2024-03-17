@@ -34,6 +34,11 @@ func (u *UserStore) GetUsers(ctx context.Context) ([]*models.User, error) {
 		if tx.Error != nil {
 			return nil, tx.Error
 		}
+		tx = u.db.Table("comments").WithContext(ctx).Where("author_id = ?", user.ID).Find(&user.Comments)
+		if tx.Error != nil {
+			return nil, tx.Error
+		}
+
 	}
 
 	return usrs, nil
@@ -70,6 +75,10 @@ func (u *UserStore) FindByEmail(ctx context.Context, email string) (*models.User
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
+	tx = u.db.Table("comments").WithContext(ctx).Where("author_id = ?", usr.ID).Find(&usr.Comments)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
 	return &usr, nil
 }
 
@@ -81,6 +90,10 @@ func (u *UserStore) FindByUsername(ctx context.Context, username string) (*model
 	}
 	tx := u.db.Table("posts").WithContext(ctx).Where("author_id = ?", usr.ID).Find(&usr.Posts)
 	if tx != nil {
+		return nil, tx.Error
+	}
+	tx = u.db.Table("comments").WithContext(ctx).Where("author_id = ?", usr.ID).Find(&usr.Comments)
+	if tx.Error != nil {
 		return nil, tx.Error
 	}
 

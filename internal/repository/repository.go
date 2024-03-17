@@ -15,7 +15,14 @@ type UserRepository interface {
 	UpdateUser(context.Context, string, models.UpdateUserInput) (*models.User, error)
 }
 
-type CommentRepository interface{}
+type CommentRepository interface {
+	CreaterComment(context.Context, string, models.NewCommentInput) (*models.Comment, error)
+	GetComments(context.Context, string) ([]*models.Comment, error)
+	GetComment(context.Context, string, string) (*models.Comment, error)
+	GetCommentByPost(context.Context, string) ([]*models.Comment, error)
+	DeleteComment(context.Context, string) (bool, error)
+	UpdateComment(context.Context, string, models.UpdateCommentInput) (*models.Comment, error)
+}
 type PostRepository interface {
 	CreaterPost(context.Context, string, models.NewPostInput) (*models.Post, error)
 	GetPosts(context.Context) ([]*models.Post, error)

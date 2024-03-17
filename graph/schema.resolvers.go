@@ -41,6 +41,21 @@ func (r *mutationResolver) DeletePost(ctx context.Context, id string) (bool, err
 	return r.PostRepository.DeletePost(ctx, id)
 }
 
+// CreateComment is the resolver for the createComment field.
+func (r *mutationResolver) CreateComment(ctx context.Context, username string, newComment models.NewCommentInput) (*models.Comment, error) {
+	return r.CommentRepository.CreaterComment(ctx, username, newComment)
+}
+
+// UpdateComment is the resolver for the updateComment field.
+func (r *mutationResolver) UpdateComment(ctx context.Context, id string, updateComment models.UpdateCommentInput) (*models.Comment, error) {
+	return r.CommentRepository.UpdateComment(ctx, id, updateComment)
+}
+
+// DeleteComment is the resolver for the deleteComment field.
+func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (bool, error) {
+	return r.CommentRepository.DeleteComment(ctx, id)
+}
+
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context, search *string, limit *int, offset *int) ([]*models.User, error) {
 	return r.UserRepository.GetUsers(ctx)
@@ -64,6 +79,21 @@ func (r *queryResolver) Posts(ctx context.Context, limit *int, offset *int) ([]*
 // Post is the resolver for the post field.
 func (r *queryResolver) Post(ctx context.Context, id string) (*models.Post, error) {
 	return r.PostRepository.GetPost(ctx, id)
+}
+
+// Comments is the resolver for the comments field.
+func (r *queryResolver) Comments(ctx context.Context, username string, limit *int, offset *int) ([]*models.Comment, error) {
+	return r.CommentRepository.GetComments(ctx, username)
+}
+
+// Comment is the resolver for the comment field.
+func (r *queryResolver) Comment(ctx context.Context, usename string, id string) (*models.Comment, error) {
+	return r.CommentRepository.GetComment(ctx, usename, id)
+}
+
+// CommentsByPost is the resolver for the commentsByPost field.
+func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*models.Comment, error) {
+	return r.CommentRepository.GetCommentByPost(ctx, postID )
 }
 
 // Mutation returns MutationResolver implementation.

@@ -1,105 +1,124 @@
-  directive @goField(
-    forceResolver: Boolean
-    name: String
-  ) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
-  directive @auth on FIELD_DEFINITION
+directive @auth on FIELD_DEFINITION
 
-  scalar Any
-  scalar Time
+scalar Any
+scalar Time
 
-  type User {
-    id: ID!
-    username: String!
-    email: String!
-    name: String!
-    bio: String!
-    profilePicture: String!
-    password: String!
-    createdAt: Time!
-    updatedAt: Time!
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  name: String!
+  bio: String!
+  profilePicture: String!
+  password: String!
+  createdAt: Time!
+  updatedAt: Time!
 
-    posts: [Post!]!
-    comments: [Comment!]!
-    likes: [Like!]!
-    friends: [User!]!
-    blockedUsers: [User!]!
-    closeFriends: [User!]!
-  }
+  posts: [Post!]!
+  comments: [Comment!]!
+  likes: [Like!]!
+  friends: [User!]!
+  blockedUsers: [User!]!
+  closeFriends: [User!]!
+}
 
-  type Post {
-    id: ID!
-    content: String!
-    createdAt: Time!
-    updatedAt: Time!
-    authorID: String!
-    author: User!
-    comments: [Comment!]!
-    likes: [Like!]!
-  }
+type Post {
+  id: ID!
+  content: String!
+  createdAt: Time!
+  updatedAt: Time!
+  authorID: String!
+  author: User!
+  comments: [Comment!]!
+  likes: [Like!]!
+}
 
-  type Comment {
-    id: ID!
-    content: String!
-    createdAt: Time!
-    updatedAt: Time!
+type Comment {
+  id: ID!
+  content: String!
+  createdAt: Time!
+  updatedAt: Time!
 
-    author: User!
-    post: Post!
-    likes: [Like!]!
-  }
+  author: User!
+  post: Post!
+  likes: [Like!]!
+}
 
-  type Like {
-    id: ID!
-    createdAt: Time!
+type Like {
+  id: ID!
+  createdAt: Time!
 
-    user: User
-    post: Post
-    comment: Comment
-  }
-  # User Inputs
-  input NewUserInput {
-    username: String!
-    email: String!
-    name: String!
-    bio: String!
-    profilePicture: String!
-    password: String!
-  }
+  user: User
+  post: Post
+  comment: Comment
+}
+# User Inputs
+input NewUserInput {
+  username: String!
+  email: String!
+  name: String!
+  bio: String!
+  profilePicture: String!
+  password: String!
+}
 
-  input updateUserInput {
-    username: String
-    name: String
-    bio: String
-    profilePicture: String
-    password: String
-    updatedAt: Time
-  }
-  # Post inputs
-  input NewPostInput {
-    content: String!
-  }
+input updateUserInput {
+  username: String
+  name: String
+  bio: String
+  profilePicture: String
+  password: String
+  updatedAt: Time
+}
+# Post inputs
+input NewPostInput {
+  content: String!
+}
 
-  input UpdatePostInput {
-    content: String
-    updatedAt: Time
-  }
+input UpdatePostInput {
+  content: String
+  updatedAt: Time
+}
 
-  type Query {
-    users(search: String, limit: Int, offset: Int): [User!]!
-    userbyusername(username: String!): User!
-    userbyemail(email: String!): User!
+# Comment
+input NewCommentInput {
+  content: String!
+  postId: ID!
+}
 
-    posts(limit: Int, offset: Int): [Post!]!
-    post(id: ID!): Post!
-  }
+input UpdateCommentInput {
+  content: String
+  updatedAt: Time
+}
 
-  type Mutation {
-    createUser(newUser: NewUserInput!): User!
-    updateUser(email : String!, updateUser: updateUserInput!): User!
-    deleteUser(email: String!): Boolean!
+type Query {
+  users(search: String, limit: Int, offset: Int): [User!]!
+  userbyusername(username: String!): User!
+  userbyemail(email: String!): User!
 
-    createPost(username: String!, newPost: NewPostInput!): Post!
-    updatePost(id: ID!, updatePost: UpdatePostInput!): Post!
-    deletePost(id: ID!): Boolean!
-  }
+  posts(limit: Int, offset: Int): [Post!]!
+  post(id: ID!): Post!
+
+  comments(username: String!, limit: Int, offset: Int): [Comment!]!
+  comment(usename: String!, id: ID!): Comment!
+  commentsByPost(postId: ID!): [Comment!]!
+}
+
+type Mutation {
+  createUser(newUser: NewUserInput!): User!
+  updateUser(email: String!, updateUser: updateUserInput!): User!
+  deleteUser(email: String!): Boolean!
+
+  createPost(username: String!, newPost: NewPostInput!): Post!
+  updatePost(id: ID!, updatePost: UpdatePostInput!): Post!
+  deletePost(id: ID!): Boolean!
+
+  createComment(username: String!, newComment: NewCommentInput!): Comment!
+  updateComment(id: ID!, updateComment: UpdateCommentInput!): Comment!
+  deleteComment(id: ID!): Boolean!
+}
