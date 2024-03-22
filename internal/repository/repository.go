@@ -31,4 +31,7 @@ type PostRepository interface {
 	UpdatePost(context.Context, string, models.UpdatePostInput) (*models.Post, error)
 }
 
-type LikeRepository interface{}
+type LikeRepository interface {
+	ClickLike(context.Context, string, string, string) (*models.Like, error)
+	ClickUnlike(context.Context, string) (bool, error)
+}

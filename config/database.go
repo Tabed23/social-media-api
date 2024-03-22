@@ -17,6 +17,7 @@ type GormDB struct {
 	db *gorm.DB
 }
 
+// NewGormDB creates a new GormDB instance
 func ConnectDB() (*GormDB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
@@ -58,10 +59,12 @@ func initNamingStrategy() *schema.NamingStrategy {
 	}
 }
 
+// Schema Migration
 func (p *GormDB) StartMigration() error {
 	return p.db.AutoMigrate(&models.User{}, &models.Post{}, &models.Like{}, &models.Comment{})
 }
 
+// Get the database
 func (p *GormDB) GetDB() *gorm.DB {
 	return p.db
 }

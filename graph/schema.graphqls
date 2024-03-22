@@ -95,6 +95,7 @@ input UpdateCommentInput {
   content: String
   updatedAt: Time
 }
+# Likes
 
 type Query {
   users(search: String, limit: Int, offset: Int): [User!]!
@@ -121,4 +122,8 @@ type Mutation {
   createComment(username: String!, newComment: NewCommentInput!): Comment!
   updateComment(id: ID!, updateComment: UpdateCommentInput!): Comment!
   deleteComment(id: ID!): Boolean!
+
+  createLike(userId: String!, postId: ID, commentId: ID): Like!
+  unlike(likeId: ID!): Boolean!
+
 }

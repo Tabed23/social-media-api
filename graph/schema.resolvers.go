@@ -56,6 +56,16 @@ func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (bool, 
 	return r.CommentRepository.DeleteComment(ctx, id)
 }
 
+// CreateLike is the resolver for the createLike field.
+func (r *mutationResolver) CreateLike(ctx context.Context, userID string, postID *string, commentID *string) (*models.Like, error) {
+	panic(fmt.Errorf("not implemented: CreateLike - createLike"))
+}
+
+// Unlike is the resolver for the unlike field.
+func (r *mutationResolver) Unlike(ctx context.Context, likeID string) (bool, error) {
+	panic(fmt.Errorf("not implemented: Unlike - unlike"))
+}
+
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context, search *string, limit *int, offset *int) ([]*models.User, error) {
 	return r.UserRepository.GetUsers(ctx)
@@ -93,7 +103,7 @@ func (r *queryResolver) Comment(ctx context.Context, usename string, id string) 
 
 // CommentsByPost is the resolver for the commentsByPost field.
 func (r *queryResolver) CommentsByPost(ctx context.Context, postID string) ([]*models.Comment, error) {
-	return r.CommentRepository.GetCommentByPost(ctx, postID )
+	return r.CommentRepository.GetCommentByPost(ctx, postID)
 }
 
 // Mutation returns MutationResolver implementation.
